@@ -15,12 +15,15 @@ sample_datasets www_access path,host,agent 1412338845 1412339246  presto  tabula
 ####Providing no max_time
 
 sample_datasets www_access path,host,agent 1412338845 NULL  presto  tabular
+<br>Result: <b>https://github.com/sfotoohi/TD_SF/blob/master/output3</b>
 
 ####Providing no min_time
 
 sample_datasets www_access path,host,agent NULL 1412339246  presto  tabular
+<br>Result: <b>https://github.com/sfotoohi/TD_SF/blob/master/output4</b>
 
 ####Providing not min_time and no max_time resulting in pulling all records
 
 sample_datasets www_access path,host,agent NULL NULL  presto  tabular
+<br>Result: <b>https://github.com/sfotoohi/TD_SF/blob/master/output5</b>
 
