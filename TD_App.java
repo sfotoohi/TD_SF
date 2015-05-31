@@ -60,7 +60,7 @@ public static void main(String[] args) throws Exception {
             sql_stmt = "SELECT " + col_list + " FROM " + table_name + " where TD_TIME_RANGE(time," + min_time + ",NULL)";
         }
     } else if (!max_time.equals("NULL")) {
-        sql_stmt = "SELECT " + col_list + " FROM " + table_name + " where TD_TIME_RANGE(time,NULL" + max_time + ")";
+        sql_stmt = "SELECT " + col_list + " FROM " + table_name + " where TD_TIME_RANGE(time,NULL," + max_time + ")";
     } else {
         sql_stmt = "SELECT " + col_list + " FROM " + table_name;
     } 
