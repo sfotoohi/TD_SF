@@ -1,2 +1,2 @@
-# TD_SF
+# Sample parameters
 Sean Fotoohi TD
