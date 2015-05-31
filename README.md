@@ -1,4 +1,4 @@
-# Instructions
+# Queries
 
 Here are the scenarios that I created to verify different outcomes
 
