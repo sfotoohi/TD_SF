@@ -10,6 +10,7 @@ sample_datasets www_access path,host,agent 1412338845 1412339246  hive  csv
 ####Using the presto query engine outputting to screen in a tabular format
 
 sample_datasets www_access path,host,agent 1412338845 1412339246  presto  tabular
+<br>Result: <b>https://github.com/sfotoohi/TD_SF/blob/master/output2</b>
 
 ####Providing no max_time
 
