@@ -5,7 +5,7 @@ Here are the scenarios that I created to verify different outcomes
 ####Using the hive query engine outputting to CSV
 
 sample_datasets www_access path,host,agent 1412338845 1412339246  hive  csv
-Result: <b>output1</b>
+Result: <br><b>output1: https://github.com/sfotoohi/TD_SF/blob/master/output1</b>
 
 ####Using the presto query engine outputting to screen in a tabular format
 
