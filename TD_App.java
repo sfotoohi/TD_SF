@@ -46,7 +46,7 @@ public static void main(String[] args) throws Exception {
     Connection conn = DriverManager.getConnection(
       "jdbc:td://api.treasuredata.com/sample_datasets;useSSL=true;type=" + query_engine,
       "sean.fotoohi@gmail.com",
-      "A1glasses");
+      "*******");
     Statement stmt = conn.createStatement();
    
     String sql_stmt;
