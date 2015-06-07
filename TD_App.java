@@ -49,7 +49,6 @@ private static void displayTabular(String c1,UnpackerIterator i2,UnpackerIterato
     UnpackerIterator iter = i2;
     UnpackerIterator iter2 = i3;
     
-    
     int count = 0;
     int cnt = 0;
     int col_count = col_list.length() - col_list.replace(",", "").length()+ 1;
@@ -70,7 +69,6 @@ private static void displayTabular(String c1,UnpackerIterator i2,UnpackerIterato
         for (Value elm : row) {                 
             if ( elm.toString().length() > max_len[cnt])
                 max_len[cnt] = elm.toString().replace("\"","").length()+2;
-            
             cnt++;
         }
         cnt = 0;
@@ -83,8 +81,7 @@ private static void displayTabular(String c1,UnpackerIterator i2,UnpackerIterato
     System.out.println();
     
     //create the line between column heading and the actual data based on length of the data
-    for (int w=0; w < col_count; w++)
-    {
+    for (int w=0; w < col_count; w++){
         String str = "";
         for (int a=0 ; a<max_len[w];a++)
             str = str + "-";
@@ -105,8 +102,7 @@ private static void displayTabular(String c1,UnpackerIterator i2,UnpackerIterato
     }
     
     //create the line between last row of data and total number of rows returned
-    for (int w=0; w < col_count; w++)
-    {
+    for (int w=0; w < col_count; w++) {
         String str = "";
         for (int a=0 ; a<max_len[w];a++)
             str = str + "-";
@@ -120,14 +116,12 @@ private static void displayTabular(String c1,UnpackerIterator i2,UnpackerIterato
 private static boolean checkParam(String[] params)
 {
     // check to see if there are correct number of parameters are being passed
-    if ( params.length == 7 )
-    {
+    if ( params.length == 7 ) {
         TreasureDataClient client = new TreasureDataClient();
         boolean table_found = false; 
       
         // verify the database nad table provided by the user actualy exists
-        try{
-
+        try {
             List<DatabaseSummary> databases = client.listDatabases();
             for (DatabaseSummary database : databases) {
                 String databaseName = database.getName();
@@ -158,16 +152,14 @@ private static boolean checkParam(String[] params)
                     
                     // check to see if the user provided the correct output format
                     if (!params[6].equals("csv"))
-                        if (!params[6].equals("tabular"))
-                        {
+                        if (!params[6].equals("tabular")) {
                             System.out.println("You have provided unsupported output format. Supported formats are csv or tabular.");
                             System.exit(1);
                         }
                     
                     // check to see if the user provided the correct query engine
                     if (!params[5].equals("presto"))
-                        if (!params[5].equals("hive"))
-                        {
+                        if (!params[5].equals("hive")) {
                             System.out.println("You have provided unsupported query engine. Supported query engines are csv or tabular.");
                             System.exit(1);
                         }
@@ -176,8 +168,7 @@ private static boolean checkParam(String[] params)
                     {
                         int x = Integer.parseInt(params[3]);
                         int y = Integer.parseInt(params[4]);
-                        if (x >= y)
-                        {
+                        if (x >= y){
                             System.out.println("Start date is larger than end date.");
                             System.exit(1);
                         }
@@ -191,30 +182,25 @@ private static boolean checkParam(String[] params)
             System.exit(1);
         }
     return false;
-        
     }
-    else
-    {    
+    else {    
         System.out.println("Please provide the right number of parameters for your query!");
         System.out.println("Accepted format: <database name> <table name> <col1,col2,...coln> <min time in unix timestamp> <max timestamp in unix timestamp> <query engine> <output format>");
         System.exit(1);
         return false;
     }
-
 }
-  
-  
+
 public static void main(String[] args) throws Exception {
    loadSystemProperties();
     try {
-
       Class.forName("com.treasure_data.jdbc.TreasureDataDriver");
     } catch (ClassNotFoundException e) {
       e.printStackTrace();
       System.exit(1);
     }
     
-    //check to mnake sure that the user has provided the correct parameters
+    //check to make sure that the user has provided the correct parameters
     checkParam(args);
     
     // Assign each of the parameters from the user to variables
@@ -230,8 +216,7 @@ public static void main(String[] args) throws Exception {
     
     // Construct the SQL statement based on provided start and end time by the 
     if (!min_time.equals("NULL")) {
-        if (!max_time.equals("NULL")) //sql_stmt = "SELECT " + col_list + " FROM " + table_name + " where time >=" + min_time + " and time <=" + max_time;
-        {
+        if (!max_time.equals("NULL"))  {
             sql_stmt = "SELECT " + col_list + " FROM " + table_name + " where TD_TIME_RANGE(time," + min_time + "," + max_time + ")";
         } else {
             sql_stmt = "SELECT " + col_list + " FROM " + table_name + " where TD_TIME_RANGE(time," + min_time + ",NULL)";
@@ -241,7 +226,8 @@ public static void main(String[] args) throws Exception {
     } else {
         sql_stmt = "SELECT " + col_list + " FROM " + table_name;
     } 
-
+    
+    //show the SQL command that is being run to the user
     System.out.println("Running: " + sql_stmt);
 
     TreasureDataClient client = new TreasureDataClient();
@@ -270,9 +256,11 @@ public static void main(String[] args) throws Exception {
             String msg = String.format("Job '%s' failed: got Job status 'killed'", jobID);
             throw new ClientException(msg);
          }
-        }
+    }
     
-    // go through the result set - created two for formatting purposes
+    //  go through the result set - created two for formatting purposes. 
+    //  I looked for other means (out of the box functionality) to have the nicely foprmatted tabular output
+    //  but I could not find any therefore, I created my own method for tabular format layout
     JobResult jobResult = client.getJobResult(job);
     JobResult jr = client.getJobResult(job);
     Unpacker unpacker = jobResult.getResult(); // Unpacker class is MessagePack's deserializer
@@ -287,5 +275,4 @@ public static void main(String[] args) throws Exception {
     else
         displayTabular(col_list,iter,iter2);
     }
-
 }
